@@ -69,14 +69,14 @@ REML: Restricted Maximum Likelihood
 
 cutoff: For deciding prediction class from prediction (binomial)  
 
-positive: Level from dependent variable to predict (1/2) (Levels are alphabetically ordered) (binomial)  
+positive: Level from dependent variable to predict (1/2) (Levels are alphabetically ordered) *(binomial)*  
 
-do.plot: ROC curve plot (binomial)  
+do.plot: ROC curve plot *(binomial)*  
 
 which_plot: choice between available plots  
-- 'all' plots  
-- single plot (e.g. 'RMSE')  
-- list of plots (e.g. c('RMSE', 'r2'))  
+ - 'all' plots  
+ - single plot (e.g. 'RMSE')  
+ - list of plots (e.g. c('RMSE', 'r2'))  
 
 plot_theme: which theme to use with ggplot2  
 
@@ -85,11 +85,92 @@ seed: A number for setting seed. Makes sure the folds are the same for model com
 model_verbose: Printed feedback on the used model (lm() / lmer() / glm() / glmer()) (BOOL)  
 
 
+## Outputs
+
+### Gaussian outputs
+
+RMSE: The mean Root Mean Square Error of all the folds  
+
+r2m: The mean marginal R-squared of all the folds  
+
+r2c: The mean conditional R-squared of all the folds  
+
+AIC: The mean Akaike Information Criterion of all the folds  
+
+AICc: The mean Corrected Akaike Information Criterion of all the folds  
+
+BIC: The mean Bayesian Information Criterion of all the folds  
+
+Folds: How many folds were used?  
+
+Convergence Warnings: A count of the folds where the model did not converge  
+
+
+### Binomial outputs
+
+*ROC curve*
+
+AUC: Area Under the Curve  
+
+CI1: Confidence interval 1  
+
+CI2: Confidence interval 2 (same as AUC)  
+
+CI3: Confidence interval 3  
+
+*Confusion Matrix*
+
+Kappa: Comparison of the Observed Accuracy and the Expected Accuracy (random chance)  
+((observed accuracy - expected accuracy)/(1 - expected accuracy))  
+**[Read more about Kappa](http://stats.stackexchange.com/a/82187)**  
+
+Sensitivity: true positive rate (TPR)  
+(n true positives / n true positives + n false negatives)  
+
+Specificity: true negative rate (TNR)  
+(n true negatives / n false positives + n true negatives)  
+
+Pos Pred Value: proportions of positive results (Positive Prediction Value)  
+(n true positives / n true and false positives)  
+Calculated from sensitivity, specificity, and prevalence  
+
+Neg Pred Value: proportions of negative results (Negative Prediction Value)  
+(n true negatives / n true and false negatives)  
+Calculated from sensitivity, specificity, and prevalence  
+
+Precision: same as Pos Pred Value  
+
+Recall: same as Sensitivity  
+
+F1: harmonic mean of precision and sensitivity  
+((1+beta^2) * precision * recall / ((beta^2 * precision) + recall) - where beta = 1  
+
+Prevalence: ??? proportion of positive found to be affecting a particular population ???  
+(n true positives + n false negatives / n total predictions)  
+
+Detection Rate:  
+(n true positives / n total predictions)  
+
+Detection Prevalence:  
+(n true and false positives / n total predictions)  
+
+Balanced Accuracy:  
+(sensitivity+specificity)/2  
+
+ - Check also ?confusionMatrix from {caret} for formulas used
+
+*cross_validate()*
+
+Folds: How many folds were used?  
+
+Convergence Warnings: A count of the folds where the model did not converge  
+
 ## lm()
 
 ```{r}
 
 cross_validate(('mpg~am+cyl'), df, 1, 'am', nfolds=5, seed=1)
+
 
 ```
 
